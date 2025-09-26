@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Bloom! 🌸</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --pink: #FAD1E6;
+            --blue: #CFE8FF;
+            --lavender: #E8D9FF;
+            --coffee: #6B4F3A;
+            --cream: #FFF7F9;
+            --white: #FFFFFF;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+        }
+
+        [data-theme="dark"] {
+            --pink: #C94A81;
+            --blue: #4A90E2;
+            --lavender: #8B67B3;
+            --coffee: #D4A574;
+            --cream: #1A1A2E;
+            --white: #16213E;
+            --text-primary: #F0F0F0;
+            --text-secondary: #B0B0B0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: var(--cream);
+            overflow-x: hidden;
+            position: relative;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        /* Dark Mode Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 80px;
+            z-index: 10001;
+            background: var(--white);
+            border: 2px solid var(--pink);
+            border-radius: 50px;
+            padding: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .theme-icon {
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle .sun {
+            display: none;
+        }
+
+        [data-theme="dark"] .theme-toggle .sun {
+            display: block;
+        }
+
+        [data-theme="dark"] .theme-toggle .moon {
+            display: none;
+        }
+
+        /* Loading Animation */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--pink) 0%, var(--lavender) 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.8s ease;
+        }
+
+        .loading-screen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .coffee-cup {
+            position: relative;
+            width: 150px;
+            height: 180px;
+        }
+
+        .cup {
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            border: 3px solid var(--white);
+            border-radius: 0 0 70px 70px;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .cup-handle {
+            position: absolute;
+            right: -30px;
+            top: 40px;
+            width: 40px;
+            height: 60px;
+            border: 3px solid var(--white);
+            border-left: none;
+            border-radius: 0 20px 20px 0;
+        }
+
+        .coffee-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(180deg, #8B6F47 0%, var(--coffee) 100%);
+            border-radius: 0 0 67px 67px;
+            animation: fillCoffee 3s ease-in-out forwards;
+        }
+
+        @keyframes fillCoffee {
+            0% { height: 0%; }
+            100% { height: 75%; }
+        }
+
+        .steam {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .steam-line {
+            width: 2px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.5);
+            margin: 0 5px;
+            display: inline-block;
+            animation: steam 2s infinite ease-in-out;
+            border-radius: 10px;
+        }
+
+        .steam-line:nth-child(2) { animation-delay: 0.5s; }
+        .steam-line:nth-child(3) { animation-delay: 1s; }
+
+        @keyframes steam {
+            0%, 100% { 
+                transform: translateY(0) scaleY(1);
+                opacity: 0;
+            }
+            50% {
+                transform: translateY(-20px) scaleY(1.5);
+                opacity: 1;
+            }
+        }
+
+        /* Page Management */
+        .page {
+            display: none;
+            min-height: 100vh;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Main Content */
+        .app-container {
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards;
+            animation-delay: 3.5s;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: var(--white);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--coffee);
+            cursor: pointer;
+        }
+
+        .back-button {
+            background: var(--pink);
+            color: var(--white);
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .back-button.show {
+            display: block;
+        }
+
+        .back-button:hover {
+            background: var(--lavender);
+            transform: scale(1.05);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 90vh;
+            background: linear-gradient(135deg, var(--pink) 0%, var(--blue) 50%, var(--lavender) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            color: var(--white);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: bounce 2s infinite;
+        }
+
+        .bloom-name {
+            background: linear-gradient(45deg, #FF6B6B, #FFE66D, #4ECDC4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 800;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
+        }
+
+        [data-theme="dark"] .hero h1 {
+            color: var(--text-primary);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .kitten-emoji {
+            display: inline-block;
+            font-size: 1.5rem;
+            margin: 0 0.5rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .kitten-emoji:hover {
+            transform: scale(1.2) rotate(10deg);
+            animation: wiggle 0.5s ease;
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-5deg) scale(1.2); }
+            50% { transform: rotate(5deg) scale(1.2); }
+        }
+
+        .cta-button {
+            background: var(--white);
+            color: var(--coffee);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        /* Floating Elements */
+        .balloon {
+            position: absolute;
+            width: 60px;
+            height: 70px;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .balloon::after {
+            content: "🌸";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+        }
+
+        .balloon:nth-child(1) {
+            background: rgba(250, 209, 230, 0.8);
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .balloon:nth-child(2) {
+            background: rgba(207, 232, 255, 0.8);
+            left: 80%;
+            animation-delay: 2s;
+        }
+
+        .balloon:nth-child(3) {
+            background: rgba(232, 217, 255, 0.8);
+            left: 45%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-30px) rotate(5deg); }
+        }
+
+        /* General Section Styling */
+        .treats-section, .mood-gallery-section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--coffee);
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        /* Friends Gallery */
+        .treats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .treat-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .treat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(250, 209, 230, 0.3), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .treat-card:hover::before {
+            opacity: 1;
+        }
+
+        .treat-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+
+        .person-sticker {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .treat-title {
+            font-size: 1.3rem;
+            color: var(--coffee);
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .treat-description {
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .treat-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+
+        .chip {
+            background: var(--pink);
+            color: var(--white);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* Mood Image Gallery */
+        .mood-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            justify-items: center;
+        }
+
+        .mood-image-container {
+            width: 150px;
+            height: 150px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .mood-image-container:hover {
+            transform: scale(1.1) rotate(3deg);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .mood-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid var(--white);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Birthday Wish Pages */
+        .wish-page {
+            min-height: 100vh;
+            padding: 2rem;
+            background: var(--cream);
+        }
+
+        .wish-hero {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: linear-gradient(135deg, var(--pink) 0%, var(--lavender) 100%);
+            border-radius: 30px;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wish-hero::before {
+            content: '✨';
+            position: absolute;
+            font-size: 2rem;
+            animation: sparkle 3s infinite;
+            top: 20px;
+            left: 20px;
+        }
+
+        .wish-hero::after {
+            content: '✨';
+            position: absolute;
+            font-size: 2rem;
+            animation: sparkle 3s infinite;
+            animation-delay: 1.5s;
+            bottom: 20px;
+            right: 20px;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        .wish-person-sticker {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            animation: bounce 2s infinite;
+        }
+
+        .wish-person-name {
+            color: var(--white);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        [data-theme="dark"] .wish-person-name {
+            color: var(--text-primary);
+        }
+
+        /* Birthday Message Container */
+        .birthday-message {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 30px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .message-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .message-text {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            white-space: pre-wrap;
+        }
+
+        .message-signature {
+            text-align: right;
+            font-weight: 600;
+            color: var(--coffee);
+            margin-top: 2rem;
+            font-size: 1.1rem;
+        }
+        
+        /* Wish Page Images */
+        .wish-images-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            margin: 2.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .wish-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--pink);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .wish-image:hover {
+            transform: scale(1.1);
+        }
+
+        /* Music Player */
+        .music-player {
+            background: var(--white);
+            border-radius: 30px;
+            padding: 2rem;
+            margin: 3rem auto;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .music-title {
+            font-size: 1.5rem;
+            color: var(--coffee);
+            margin-bottom: 1rem;
+        }
+
+        .audio-visualizer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            height: 60px;
+            margin: 1.5rem 0;
+        }
+
+        .bar {
+            width: 4px;
+            background: linear-gradient(to top, var(--pink), var(--lavender));
+            border-radius: 2px;
+        }
+
+        .bar.dancing {
+            animation: dance 1s ease-in-out infinite;
+        }
+
+        .bar:nth-child(1) { animation-delay: 0s; height: 20px; }
+        .bar:nth-child(2) { animation-delay: 0.1s; height: 30px; }
+        .bar:nth-child(3) { animation-delay: 0.2s; height: 25px; }
+        .bar:nth-child(4) { animation-delay: 0.3s; height: 35px; }
+        .bar:nth-child(5) { animation-delay: 0.4s; height: 28px; }
+        .bar:nth-child(6) { animation-delay: 0.5s; height: 32px; }
+        .bar:nth-child(7) { animation-delay: 0.6s; height: 24px; }
+
+        @keyframes dance {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(1.5); }
+        }
+
+        .music-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .music-btn {
+            background: var(--pink);
+            color: var(--white);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 1.5rem;
+        }
+
+        .music-btn:hover {
+            background: var(--lavender);
+            transform: scale(1.1);
+        }
+
+        .music-btn.play-btn {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--pink), var(--lavender));
+        }
+
+        /* Wishes Section */
+        .wishes-section {
+            background: linear-gradient(180deg, var(--cream) 0%, var(--pink) 100%);
+            padding: 4rem 2rem;
+        }
+
+        .wishes-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .wish-card {
+            background: var(--white);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .wish-card::before,
+        .wish-card::after {
+            content: "💝";
+            position: absolute;
+            font-size: 2rem;
+        }
+
+        .wish-card::before {
+            top: 20px;
+            left: 20px;
+        }
+
+        .wish-card::after {
+            bottom: 20px;
+            right: 20px;
+        }
+
+        /* Fixed Gift FAB */
+        .gift-fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--pink) 0%, var(--lavender) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .gift-fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+        }
+
+        .gift-fab span {
+            font-size: 2rem;
+        }
+
+        /* Fixed Radial Menu */
+        .radial-menu {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+            pointer-events: none;
+        }
+
+        .menu-item {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: var(--white);
+            border: 2px solid var(--pink);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            opacity: 0;
+            transform: translate(0, 0) scale(0);
+            pointer-events: auto;
+        }
+
+        .menu-item.active {
+            opacity: 1;
+        }
+
+        .menu-item:nth-child(1).active { 
+            transform: translate(-80px, 0) scale(1); 
+        }
+        .menu-item:nth-child(2).active { 
+            transform: translate(-60px, -60px) scale(1); 
+        }
+        .menu-item:nth-child(3).active { 
+            transform: translate(0, -80px) scale(1); 
+        }
+        .menu-item:nth-child(4).active { 
+            transform: translate(60px, -60px) scale(1); 
+        }
+
+        .menu-item:hover {
+            background: var(--pink);
+            border-color: var(--lavender);
+        }
+
+        .menu-item span {
+            font-size: 1.5rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: 30px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-emoji {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: modalBounce 0.6s ease;
+        }
+
+        @keyframes modalBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .close-modal {
+            background: var(--pink);
+            color: var(--white);
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            margin-top: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background: var(--lavender);
+            transform: scale(1.05);
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            z-index: 3000;
+            animation: confettiFall 3s linear forwards;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Footer */
+        footer {
+            background: var(--coffee);
+            color: var(--white);
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        [data-theme="dark"] footer {
+            color: var(--text-primary);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .paw-prints {
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            opacity: 0.7;
+        }
+
+        /* Accessibility */
+        :focus-visible {
+            outline: 3px solid var(--lavender);
+            outline-offset: 2px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .theme-toggle {
+                top: 10px;
+                right: 10px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .treats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .mood-gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .gift-fab {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-toggle" onclick="toggleTheme()">
+        <span class="theme-icon moon">🌙</span>
+        <span class="theme-icon sun">☀️</span>
+    </div>
+
+    <div class="loading-screen" id="loadingScreen">
+        <div class="coffee-cup">
+            <div class="steam">
+                <span class="steam-line"></span>
+                <span class="steam-line"></span>
+                <span class="steam-line"></span>
+            </div>
+            <div class="cup">
+                <div class="coffee-fill"></div>
+                <div class="cup-handle"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <nav class="navbar">
+            <div class="nav-content">
+                <div class="logo" onclick="goHome()">🌸 For Bloom</div>
+                <button class="back-button" id="backButton" onclick="goHome()">
+                    ← Back to Home
+                </button>
+                <div class="kitten-emoji">(=^･ω･^=)</div>
+            </div>
+        </nav>
+
+        <div class="page active" id="homePage">
+            <section class="hero">
+                <div class="balloon"></div>
+                <div class="balloon"></div>
+                <div class="balloon"></div>
+                
+                <div class="hero-content">
+                    <h1>Happy Birthday</h1>
+                    <div class="bloom-name">BLOOM!</div>
+                    <p style="color: white; font-size: 1.2rem; margin: 1rem 0;">
+                        <span class="kitten-emoji">(ฅ^•ω•^ฅ)</span>
+                        Your friends have special messages for you
+                        <span class="kitten-emoji">(˶ᵔᵕᵔ˶)♡</span>
+                    </p>
+                    <button class="cta-button" onclick="scrollToFriends()">View Birthday Messages 🎉</button>
+                </div>
+            </section>
+
+            <section class="treats-section" id="friends">
+                <h2 class="section-title">
+                    <span class="kitten-emoji">(=^･ω･^=)</span>
+                    Messages from Your Friends
+                    <span class="kitten-emoji">(=^･ω･^=)</span>
+                </h2>
+                <div class="treats-grid">
+                    <div class="treat-card" onclick="openWishPage('parth')">
+                        <div class="person-sticker">👨‍💻</div>
+                        <h3 class="treat-title">From Parth</h3>
+                        <p class="treat-description">A heartfelt message from childhood</p>
+                        <div class="treat-tags">
+                            <span class="chip">Heartfelt</span>
+                            <span class="chip">Emotional</span>
+                        </div>
+                    </div>
+                    <div class="treat-card" onclick="openWishPage('sakshi')">
+                        <div class="person-sticker">👩‍🎨</div>
+                        <h3 class="treat-title">From Sakshi</h3>
+                        <p class="treat-description">Your cutie patootie bbg's wishes</p>
+                        <div class="treat-tags">
+                            <span class="chip">Love</span>
+                            <span class="chip">Sweet</span>
+                        </div>
+                    </div>
+                    <div class="treat-card" onclick="openWishPage('dewanshu')">
+                        <div class="person-sticker">🎯</div>
+                        <h3 class="treat-title">From Dewanshu</h3>
+                        <p class="treat-description">Positive vibes and happiness</p>
+                        <div class="treat-tags">
+                            <span class="chip">Positivity</span>
+                            <span class="chip">Joy</span>
+                        </div>
+                    </div>
+                    <div class="treat-card" onclick="openWishPage('ritvik')">
+                        <div class="person-sticker">🎸</div>
+                        <h3 class="treat-title">From Ritvik</h3>
+                        <p class="treat-description">Grateful wishes from the heart</p>
+                        <div class="treat-tags">
+                            <span class="chip">Grateful</span>
+                            <span class="chip">Caring</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="mood-gallery-section">
+                <h2 class="section-title">A Gallery of Bloom's Many Moods</h2>
+                <div class="mood-gallery-grid">
+                    <div class="mood-image-container"><img src="photo_9_2025-09-26_21-41-51.jpg" alt="Happy" class="mood-image"></div>
+                    <div class="mood-image-container"><img src="photo_5_2025-09-26_21-41-51.jpg" alt="Laughing" class="mood-image"></div>
+                    <div class="mood-image-container"><img src="photo_3_2025-09-26_21-41-51.jpg" alt="Excited" class="mood-image"></div>
+                    <div class="mood-image-container"><img src="photo_1_2025-09-26_21-41-51.jpg" alt="Pouting" class="mood-image"></div>
+                    <div class="mood-image-container"><img src="photo_8_2025-09-26_21-41-51.jpg" alt="Annoyed" class="mood-image"></div>
+                    <div class="mood-image-container"><img src="photo_2_2025-09-26_21-41-51.jpg" alt="Angry" class="mood-image"></div>
+                    <div class="mood-image-container"><img src="photo_7_2025-09-26_21-41-51.jpg" alt="Confused" class="mood-image"></div>
+                    <div class="mood-image-container"><img src="photo_6_2025-09-26_21-41-51.jpg" alt="Frustrated" class="mood-image"></div>
+                    <div class="mood-image-container"><img src="photo_4_2025-09-26_21-41-51.jpg" alt="Crying" class="mood-image"></div>
+                </div>
+            </section>
+
+            <section style="padding: 2rem;">
+                <div class="music-player">
+                    <h3 class="music-title">🎵 Birthday Playlist for Bloom 🎵</h3>
+                    <div class="audio-visualizer">
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                    </div>
+                    <audio id="birthdayAudio" loop>
+                        <source src="https://drive.google.com/uc?export=download&id=1UDRVMZV3NfSOTzLfTVTxsR2J3m4PtrIr" type="audio/mpeg">
+                    </audio>
+                    <div class="music-controls">
+                        <button class="music-btn play-btn" onclick="togglePlay()" id="playBtn">▶️</button>
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-secondary);">
+                        Click play to start the birthday celebration music!
+                    </p>
+                </div>
+            </section>
+
+            <section class="wishes-section">
+                <div class="wishes-container">
+                    <h2 class="section-title">Celebrating You, Bloom!</h2>
+                    <div class="wish-card">
+                        <h3 style="color: var(--coffee); font-size: 1.8rem; margin-bottom: 1rem;">
+                            A Day as Special as You Are
+                        </h3>
+                        <p style="font-size: 1.1rem; line-height: 1.8; color: var(--text-secondary);">
+                            Today, all your friends come together to celebrate the amazing person you are. 
+                            May this birthday mark the beginning of a year filled with good health, happiness, 
+                            and all the success you deserve!
+                        </p>
+                        <div style="margin-top: 2rem;">
+                            <span class="kitten-emoji">(˶ᵔᵕᵔ˶)♡</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer>
+                <div class="footer-content">
+                    <div class="paw-prints">🌸 🌸 🌸</div>
+                    <p>Made with love for Bloom's special day</p>
+                    <p style="margin-top: 1rem; opacity: 0.8;">© 2024 Birthday Celebration</p>
+                </div>
+            </footer>
+        </div>
+
+        <div class="page" id="parthPage">
+            <div class="wish-page">
+                <div class="wish-hero">
+                    <div class="wish-person-sticker">👨‍💻</div>
+                    <h1 class="wish-person-name">Parth's Birthday Message</h1>
+                    <p style="color: white; font-size: 1.1rem;">From childhood to forever</p>
+                </div>
+
+                <div class="birthday-message">
+                    <div class="message-section">
+                        <p class="message-text">Wishing you a very happy 21st. Can't believe you're so old now. As someone who's been watching you grow since childhood, this is a personal win for me 😢. The potted plant has grown into a बरगद ka jhaad. Tho, with old age, come responsibilities. And if your smol brain can't handle them, then consult me, I'm always here :)
+
+
+You know, if someone asked me what I admire most about you, I wouldn't be able to give just one answer. Is it the way you can turn even the dullest day into something worth remembering? Or the way you're both softness and strength at the same time? Or maybe it's the fact that somehow, without even trying, you make the people around you feel lighter just by being there.
+
+You've been my safe corner more times than you realize. The late night convos, the rants, the vents, all of it has stitched itself into a part of me that I wouldn't trade for anything. Time spent with you is already treasured in me, and is an inseparable part of me now. And the truth is, you've taught me a lot, patience, kindness, and that sometimes listening matters more than fixing.
+
+I know life isn't always easy, and you don't give yourself enough credit for how much you've grown already. But Bloom, I need you to know, you are so much more than you think you are. You're rare. One does not find people like you anywhere, randomly. I often wonder what good I must've done for fate to let you storm into my life and paint it in colors I never knew existed.
+
+So today, on your day, I just want to remind you that you're loved, celebrated, and so, so appreciated. With you, even silence feels boisterous. May this year bring you laughter which drowns your sorrows, and lead you to the pinnacle of what you always wanted to be. Dw I'll always be there, clapping the loudest at your success and always being there for you, in your UPS (we ain't manifesting no DOWNS)
+
+Happy birthday, boom
+Stay chaotic, stay radiant, stay you. Because honestly, there's no better version of you than the one I already know.</p>
+
+                        <div class="wish-images-container">
+                            <img src="photo_8_2025-09-26_21-41-51.jpg" alt="Chibi Image 1" class="wish-image">
+                            <img src="photo_5_2025-09-26_21-41-51.jpg" alt="Chibi Image 2" class="wish-image">
+                            <img src="photo_1_2025-09-26_21-41-51.jpg" alt="Chibi Image 3" class="wish-image">
+                        </div>
+                        
+                        <div class="message-signature">
+                            Always rooting for you,<br>
+                            Parth :)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="sakshiPage">
+            <div class="wish-page">
+                <div class="wish-hero" style="background: linear-gradient(135deg, #FFB6C1 0%, #DDA0DD 100%);">
+                    <div class="wish-person-sticker">👩‍🎨</div>
+                    <h1 class="wish-person-name">Sakshi's Birthday Message</h1>
+                    <p style="color: white; font-size: 1.1rem;">Your cutie patootie bbg</p>
+                </div>
+
+                <div class="birthday-message">
+                    <div class="message-section">
+                        <p class="message-text">Happiest birthday my cutie patootie bbg
+Im so thankful to God for bringing you to my life. 
+Youre the perfect blend of everything one needs in life. 
+I aspire to be as wholesome as you (and rich too ngl)
+You motivate me so much and your presence always makes me happy. Plus your voice its the sweetest thing ever
+I love youuuu so so so much</p>
+
+                        <div class="wish-images-container">
+                            <img src="photo_9_2025-09-26_21-41-51.jpg" alt="Chibi Image 1" class="wish-image">
+                            <img src="photo_3_2025-09-26_21-41-51.jpg" alt="Chibi Image 2" class="wish-image">
+                            <img src="photo_4_2025-09-26_21-41-51.jpg" alt="Chibi Image 3" class="wish-image">
+                        </div>
+                        
+                        <div class="message-signature">
+                            With all my love,<br>
+                            Sakshi 💕
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="dewanshuPage">
+            <div class="wish-page">
+                <div class="wish-hero" style="background: linear-gradient(135deg, #4A90E2 0%, #7B68EE 100%);">
+                    <div class="wish-person-sticker">🎯</div>
+                    <h1 class="wish-person-name">Dewanshu's Birthday Message</h1>
+                    <p style="color: white; font-size: 1.1rem;">Positivity ke ball</p>
+                </div>
+
+                <div class="birthday-message">
+                    <div class="message-section">
+                        <p class="message-text">Happy Birthday Booooom bhaiyyaaa
+Parth bhaiya ke side se one of the best introductions
+Positivity ke ball ho yaar
+Stay happy didi, sorry itna zyada kuch likh nai paa rha kuch din se v hectic chal raha 
+Baaki to love you di, khush raho di
+Stay happy and be happy.</p>
+                        
+                        <div class="wish-images-container">
+                            <img src="photo_2_2025-09-26_21-41-51.jpg" alt="Chibi Image 1" class="wish-image">
+                            <img src="photo_6_2025-09-26_21-41-51.jpg" alt="Chibi Image 2" class="wish-image">
+                            <img src="photo_7_2025-09-26_21-41-51.jpg" alt="Chibi Image 3" class="wish-image">
+                        </div>
+                        
+                        <div class="message-signature">
+                            Love you di,<br>
+                            Dewanshu 🎉
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="ritvikPage">
+            <div class="wish-page">
+                <div class="wish-hero" style="background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 100%);">
+                    <div class="wish-person-sticker">🎸</div>
+                    <h1 class="wish-person-name">Ritvik's Birthday Message</h1>
+                    <p style="color: white; font-size: 1.1rem;">Always grateful for you</p>
+                </div>
+
+                <div class="birthday-message">
+                    <div class="message-section">
+                        <p class="message-text">Happy Birthday Bloom Didi ^_^
+
+Jab DD nei mujhe add karne ka bola tha, I was very hesitant, ki karu ya nahi ye group join, but I could never be an glader ki I did. Literally one of the most positive, helpful and person I know, and caring as well, how can I forget caring. You always have words or ideas for solving the situation anyone is in, there to listen. As parth bhai always says "Bloom really is GOATED :)". All I wish is you always, always stay happy :D.</p>
+                        
+                        <div class="wish-images-container">
+                            <img src="photo_3_2025-09-26_21-41-51.jpg" alt="Chibi Image 1" class="wish-image">
+                            <img src="photo_9_2025-09-26_21-41-51.jpg" alt="Chibi Image 2" class="wish-image">
+                            <img src="photo_5_2025-09-26_21-41-51.jpg" alt="Chibi Image 3" class="wish-image">
+                        </div>
+
+                        <div class="message-signature">
+                            Always wishing you happiness,<br>
+                            Ritvik ^_^
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="gift-fab" id="giftFab" aria-label="Open gift menu">
+        <span>🎁</span>
+    </div>
+
+    <div class="radial-menu" id="radialMenu">
+        <div class="menu-item" data-type="balloon" aria-label="Balloon">
+            <span>🎈</span>
+        </div>
+        <div class="menu-item" data-type="party" aria-label="Party">
+            <span>🎉</span>
+        </div>
+        <div class="menu-item" data-type="music" aria-label="Music">
+            <span>🎵</span>
+        </div>
+        <div class="menu-item" data-type="flower" aria-label="Flower">
+            <span>🌸</span>
+        </div>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-emoji" id="modalEmoji">🎁</div>
+            <h3 id="modalTitle">Special Surprise!</h3>
+            <p id="modalText">You found a special treat!</p>
+            <button class="close-modal" onclick="closeModal()">Yay! 🎉</button>
+        </div>
+    </div>
+
+    <script>
+        // Set dark mode as default
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+
+        // Dark Mode Toggle
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Loading screen
+        setTimeout(() => {
+            const loadingScreen = document.getElementById('loadingScreen');
+            loadingScreen.classList.add('fade-out');
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 800);
+        }, 3500);
+
+        // Music Player Functions
+        let isPlaying = false;
+        const audio = document.getElementById('birthdayAudio');
+        const playBtn = document.getElementById('playBtn');
+
+        function togglePlay() {
+            if (isPlaying) {
+                audio.pause();
+                playBtn.textContent = '▶️';
+                document.querySelectorAll('.bar').forEach(bar => bar.classList.remove('dancing'));
+            } else {
+                audio.play();
+                playBtn.textContent = '⏸️';
+                document.querySelectorAll('.bar').forEach(bar => bar.classList.add('dancing'));
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // Page navigation
+        let currentPage = 'home';
+
+        function openWishPage(person) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Show selected page
+            const pageName = person + 'Page';
+            document.getElementById(pageName).classList.add('active');
+            
+            // Show back button
+            document.getElementById('backButton').classList.add('show');
+            
+            currentPage = person;
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+            
+            // Add entrance animation
+            createConfetti();
+        }
+
+        function goHome() {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show home page
+            document.getElementById('homePage').classList.add('active');
+            
+            // Hide back button
+            document.getElementById('backButton').classList.remove('show');
+            
+            currentPage = 'home';
+        }
+
+        // Gift FAB and Radial Menu
+        const giftFab = document.getElementById('giftFab');
+        const radialMenu = document.getElementById('radialMenu');
+        const menuItems = radialMenu.querySelectorAll('.menu-item');
+        let menuOpen = false;
+
+        giftFab.addEventListener('click', () => {
+            menuOpen = !menuOpen;
+            menuItems.forEach((item, index) => {
+                setTimeout(() => {
+                    if (menuOpen) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                }, index * 50);
+            });
+            giftFab.style.transform = menuOpen ? 'rotate(45deg) scale(1.1)' : 'rotate(0) scale(1)';
+        });
+
+        // Modal content data
+        const modalData = {
+            balloon: {
+                emoji: '🎈',
+                title: 'Birthday Balloons!',
+                text: 'Floating wishes of joy for Bloom!'
+            },
+            party: {
+                emoji: '🎉',
+                title: 'Party Time!',
+                text: 'Let\'s celebrate Bloom\'s special day!'
+            },
+            music: {
+                emoji: '🎵',
+                title: 'Birthday Melody!',
+                text: 'A special song for our dear Bloom!'
+            },
+            flower: {
+                emoji: '🌸',
+                title: 'Blooming Wishes!',
+                text: 'May you bloom beautifully always!'
+            }
+        };
+
+        // Menu item clicks
+        menuItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const type = item.dataset.type;
+                showModal(type);
+                createConfetti();
+            });
+        });
+
+        // Modal functions
+        const modal = document.getElementById('modal');
+        const modalEmoji = document.getElementById('modalEmoji');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalText = document.getElementById('modalText');
+
+        function showModal(type) {
+            const data = modalData[type];
+            modalEmoji.textContent = data.emoji;
+            modalTitle.textContent = data.title;
+            modalText.textContent = data.text;
+            modal.classList.add('active');
+            
+            // Close radial menu
+            menuOpen = false;
+            menuItems.forEach(item => item.classList.remove('active'));
+            giftFab.style.transform = 'rotate(0) scale(1)';
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        // Click outside modal to close
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Confetti animation
+        function createConfetti() {
+            const colors = ['#FAD1E6', '#CFE8FF', '#E8D9FF', '#FFD700', '#FF69B4'];
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 50);
+            }
+        }
+
+        // Scroll to friends
+        function scrollToFriends() {
+            document.getElementById('friends').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Add hover animations to cards
+        document.querySelectorAll('.treat-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.querySelector('.person-sticker').style.animation = 'wiggle 0.5s ease';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.querySelector('.person-sticker').style.animation = '';
+            });
+        });
+
+        // Add sparkle effects randomly
+        function addSparkle() {
+            if (currentPage === 'home') {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.textContent = '✨';
+                sparkle.style.position = 'fixed';
+                sparkle.style.left = Math.random() * window.innerWidth + 'px';
+                sparkle.style.top = Math.random() * window.innerHeight + 'px';
+                sparkle.style.pointerEvents = 'none';
+                sparkle.style.zIndex = '9999';
+                sparkle.style.color = 'var(--lavender)';
+                document.body.appendChild(sparkle);
+                
+                setTimeout(() => sparkle.remove(), 3000);
+            }
+        }
+
+        // Add sparkles periodically
+        setInterval(addSparkle, 3000);
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (modal.classList.contains('active')) {
+                    closeModal();
+                } else if (menuOpen) {
+                    menuOpen = false;
+                    menuItems.forEach(item => item.classList.remove('active'));
+                    giftFab.style.transform = 'rotate(0) scale(1)';
+                }
+            }
+        });
+
+        // Add click animations to kitten emojis
+        document.querySelectorAll('.kitten-emoji').forEach(kitten => {
+            kitten.addEventListener('click', () => {
+                kitten.style.animation = 'none';
+                setTimeout(() => {
+                    kitten.style.animation = 'wiggle 0.5s ease';
+                }, 10);
+                
+                // Create hearts around the kitten
+                for (let i = 0; i < 5; i++) {
+                    const heart = document.createElement('span');
+                    heart.textContent = '💖';
+                    heart.style.position = 'absolute';
+                    heart.style.fontSize = '1rem';
+                    heart.style.pointerEvents = 'none';
+                    heart.style.animation = 'floatUp 1s ease forwards';
+                    heart.style.left = kitten.offsetLeft + Math.random() * 30 + 'px';
+                    heart.style.top = kitten.offsetTop + 'px';
+                    kitten.parentElement.appendChild(heart);
+                    
+                    setTimeout(() => heart.remove(), 1000);
+                }
+            });
+        });
+
+        // Add float up animation for hearts
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes floatUp {
+                to {
+                    transform: translateY(-50px);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
