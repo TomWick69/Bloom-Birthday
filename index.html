@@ -653,6 +653,63 @@
             50% { transform: scaleY(1.5); }
         }
 
+        /* Music Progress Bar Styles */
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            margin: 1rem 0;
+        }
+
+        .progress-bar {
+            flex-grow: 1;
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 8px;
+            background: var(--cream);
+            outline: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .progress-bar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--pink);
+            border: 2px solid var(--white);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+
+        .progress-bar::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            background: var(--pink);
+            border: 2px solid var(--white);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+        
+        .progress-bar:hover {
+            background: var(--lavender);
+        }
+
+        .time-current, .time-duration {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            min-width: 40px;
+            text-align: center;
+        }
+
         .music-controls {
             display: flex;
             justify-content: center;
@@ -1053,21 +1110,21 @@
             <section class="mood-gallery-section">
                 <h2 class="section-title">A Gallery of Bloom's Many Moods</h2>
                 <div class="mood-gallery-grid">
-                    <div class="mood-image-container"><img src="photo_9_2025-09-26_21-41-51.jpg" alt="Happy" class="mood-image"></div>
-                    <div class="mood-image-container"><img src="photo_5_2025-09-26_21-41-51.jpg" alt="Laughing" class="mood-image"></div>
-                    <div class="mood-image-container"><img src="photo_3_2025-09-26_21-41-51.jpg" alt="Excited" class="mood-image"></div>
-                    <div class="mood-image-container"><img src="photo_1_2025-09-26_21-41-51.jpg" alt="Pouting" class="mood-image"></div>
-                    <div class="mood-image-container"><img src="photo_8_2025-09-26_21-41-51.jpg" alt="Annoyed" class="mood-image"></div>
-                    <div class="mood-image-container"><img src="photo_2_2025-09-26_21-41-51.jpg" alt="Angry" class="mood-image"></div>
-                    <div class="mood-image-container"><img src="photo_7_2025-09-26_21-41-51.jpg" alt="Confused" class="mood-image"></div>
-                    <div class="mood-image-container"><img src="photo_6_2025-09-26_21-41-51.jpg" alt="Frustrated" class="mood-image"></div>
-                    <div class="mood-image-container"><img src="photo_4_2025-09-26_21-41-51.jpg" alt="Crying" class="mood-image"></div>
+                    <div class="mood-image-container"><img src="https://raw.githubusercontent.com/TomWick69/Bloom-Birthday/refs/heads/main/my-folder/photo_9_2025-09-26_21-41-51.png" alt="Happy" class="mood-image"></div>
+                    <div class="mood-image-container"><img src="https://raw.githubusercontent.com/TomWick69/Bloom-Birthday/refs/heads/main/my-folder/photo_5_2025-09-26_21-41-51.png" alt="Laughing" class="mood-image"></div>
+                    <div class="mood-image-container"><img src="https://raw.githubusercontent.com/TomWick69/Bloom-Birthday/refs/heads/main/my-folder/photo_3_2025-09-26_21-41-51.png" alt="Excited" class="mood-image"></div>
+                    <div class="mood-image-container"><img src="https://raw.githubusercontent.com/TomWick69/Bloom-Birthday/refs/heads/main/my-folder/photo_1_2025-09-26_21-41-51.png" alt="Pouting" class="mood-image"></div>
+                    <div class="mood-image-container"><img src="https://raw.githubusercontent.com/TomWick69/Bloom-Birthday/refs/heads/main/my-folder/photo_8_2025-09-26_21-41-51.png" alt="Annoyed" class="mood-image"></div>
+                    <div class="mood-image-container"><img src="https://raw.githubusercontent.com/TomWick69/Bloom-Birthday/refs/heads/main/my-folder/photo_2_2025-09-26_21-41-51.png" alt="Angy" class="mood-image"></div>
+                    <div class="mood-image-container"><img src="https://raw.githubusercontent.com/TomWick69/Bloom-Birthday/refs/heads/main/my-folder/photo_7_2025-09-26_21-41-51.png" alt="Confused" class="mood-image"></div>
+                    <div class="mood-image-container"><img src="https://raw.githubusercontent.com/TomWick69/Bloom-Birthday/refs/heads/main/my-folder/photo_6_2025-09-26_21-41-51.png" alt="Frustrated" class="mood-image"></div>
+                    <div class="mood-image-container"><img src="https://raw.githubusercontent.com/TomWick69/Bloom-Birthday/refs/heads/main/my-folder/photo_4_2025-09-26_21-41-51.png" alt="Crying" class="mood-image"></div>
                 </div>
             </section>
 
             <section style="padding: 2rem;">
                 <div class="music-player">
-                    <h3 class="music-title">🎵 Birthday Playlist for Bloom 🎵</h3>
+                    <h3 class="music-title">🎵 Birthday Song for Bloom 🎵</h3>
                     <div class="audio-visualizer">
                         <div class="bar"></div>
                         <div class="bar"></div>
@@ -1078,8 +1135,15 @@
                         <div class="bar"></div>
                     </div>
                     <audio id="birthdayAudio" loop>
-                        <source src="https://drive.google.com/uc?export=download&id=1UDRVMZV3NfSOTzLfTVTxsR2J3m4PtrIr" type="audio/mpeg">
+                        <source src="https://tomwick69.github.io/Bloom-Birthday/my-folder/Peter Cat Recording Co. - I Deny Me.mp3" type="audio/mpeg">
                     </audio>
+                    
+                    <div class="progress-container">
+                        <span class="time-current">0:00</span>
+                        <input type="range" value="0" class="progress-bar" id="progressBar">
+                        <span class="time-duration">0:00</span>
+                    </div>
+
                     <div class="music-controls">
                         <button class="music-btn play-btn" onclick="togglePlay()" id="playBtn">▶️</button>
                     </div>
@@ -1142,9 +1206,9 @@ Happy birthday, boom
 Stay chaotic, stay radiant, stay you. Because honestly, there's no better version of you than the one I already know.</p>
 
                         <div class="wish-images-container">
-                            <img src="photo_8_2025-09-26_21-41-51.jpg" alt="Chibi Image 1" class="wish-image">
-                            <img src="photo_5_2025-09-26_21-41-51.jpg" alt="Chibi Image 2" class="wish-image">
-                            <img src="photo_1_2025-09-26_21-41-51.jpg" alt="Chibi Image 3" class="wish-image">
+                            <img src="https://raw.githubusercontent.com/TomWick69/Bloom-Birthday/refs/heads/main/my-folder/photo_5_2025-09-26_21-41-51.png" alt="Chibi Image 1" class="wish-image">
+                            <img src="https://raw.githubusercontent.com/TomWick69/Bloom-Birthday/refs/heads/main/my-folder/photo_9_2025-09-26_21-41-51.png" alt="Chibi Image 2" class="wish-image">
+                            <img src="https://raw.githubusercontent.com/TomWick69/Bloom-Birthday/refs/heads/main/my-folder/photo_3_2025-09-26_21-41-51.png" alt="Chibi Image 3" class="wish-image">
                         </div>
                         
                         <div class="message-signature">
@@ -1174,9 +1238,9 @@ You motivate me so much and your presence always makes me happy. Plus your voice
 I love youuuu so so so much</p>
 
                         <div class="wish-images-container">
-                            <img src="photo_9_2025-09-26_21-41-51.jpg" alt="Chibi Image 1" class="wish-image">
-                            <img src="photo_3_2025-09-26_21-41-51.jpg" alt="Chibi Image 2" class="wish-image">
-                            <img src="photo_4_2025-09-26_21-41-51.jpg" alt="Chibi Image 3" class="wish-image">
+                            <img src="https://raw.githubusercontent.com/TomWick69/Bloom-Birthday/refs/heads/main/my-folder/photo_5_2025-09-26_21-41-51.png" alt="Chibi Image 1" class="wish-image">
+                            <img src="https://raw.githubusercontent.com/TomWick69/Bloom-Birthday/refs/heads/main/my-folder/photo_9_2025-09-26_21-41-51.png" alt="Chibi Image 2" class="wish-image">
+                            <img src="https://raw.githubusercontent.com/TomWick69/Bloom-Birthday/refs/heads/main/my-folder/photo_3_2025-09-26_21-41-51.png" alt="Chibi Image 3" class="wish-image">
                         </div>
                         
                         <div class="message-signature">
@@ -1206,9 +1270,9 @@ Baaki to love you di, khush raho di
 Stay happy and be happy.</p>
                         
                         <div class="wish-images-container">
-                            <img src="photo_2_2025-09-26_21-41-51.jpg" alt="Chibi Image 1" class="wish-image">
-                            <img src="photo_6_2025-09-26_21-41-51.jpg" alt="Chibi Image 2" class="wish-image">
-                            <img src="photo_7_2025-09-26_21-41-51.jpg" alt="Chibi Image 3" class="wish-image">
+                            <img src="https://raw.githubusercontent.com/TomWick69/Bloom-Birthday/refs/heads/main/my-folder/photo_5_2025-09-26_21-41-51.png" alt="Chibi Image 1" class="wish-image">
+                            <img src="https://raw.githubusercontent.com/TomWick69/Bloom-Birthday/refs/heads/main/my-folder/photo_9_2025-09-26_21-41-51.png" alt="Chibi Image 2" class="wish-image">
+                            <img src="https://raw.githubusercontent.com/TomWick69/Bloom-Birthday/refs/heads/main/my-folder/photo_3_2025-09-26_21-41-51.png" alt="Chibi Image 3" class="wish-image">
                         </div>
                         
                         <div class="message-signature">
@@ -1235,9 +1299,9 @@ Stay happy and be happy.</p>
 Jab DD nei mujhe add karne ka bola tha, I was very hesitant, ki karu ya nahi ye group join, but I could never be an glader ki I did. Literally one of the most positive, helpful and person I know, and caring as well, how can I forget caring. You always have words or ideas for solving the situation anyone is in, there to listen. As parth bhai always says "Bloom really is GOATED :)". All I wish is you always, always stay happy :D.</p>
                         
                         <div class="wish-images-container">
-                            <img src="photo_3_2025-09-26_21-41-51.jpg" alt="Chibi Image 1" class="wish-image">
-                            <img src="photo_9_2025-09-26_21-41-51.jpg" alt="Chibi Image 2" class="wish-image">
-                            <img src="photo_5_2025-09-26_21-41-51.jpg" alt="Chibi Image 3" class="wish-image">
+                            <img src="https://raw.githubusercontent.com/TomWick69/Bloom-Birthday/refs/heads/main/my-folder/photo_5_2025-09-26_21-41-51.png" alt="Chibi Image 1" class="wish-image">
+                            <img src="https://raw.githubusercontent.com/TomWick69/Bloom-Birthday/refs/heads/main/my-folder/photo_9_2025-09-26_21-41-51.png" alt="Chibi Image 2" class="wish-image">
+                            <img src="https://raw.githubusercontent.com/TomWick69/Bloom-Birthday/refs/heads/main/my-folder/photo_3_2025-09-26_21-41-51.png" alt="Chibi Image 3" class="wish-image">
                         </div>
 
                         <div class="message-signature">
@@ -1301,9 +1365,12 @@ Jab DD nei mujhe add karne ka bola tha, I was very hesitant, ki karu ya nahi ye 
         }, 3500);
 
         // Music Player Functions
-        let isPlaying = false;
         const audio = document.getElementById('birthdayAudio');
         const playBtn = document.getElementById('playBtn');
+        const progressBar = document.getElementById('progressBar');
+        const currentTimeEl = document.querySelector('.time-current');
+        const durationEl = document.querySelector('.time-duration');
+        let isPlaying = false;
 
         function togglePlay() {
             if (isPlaying) {
@@ -1317,6 +1384,38 @@ Jab DD nei mujhe add karne ka bola tha, I was very hesitant, ki karu ya nahi ye 
             }
             isPlaying = !isPlaying;
         }
+
+        // NEW: Music slider functions
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function updateProgress() {
+            progressBar.value = audio.currentTime;
+            currentTimeEl.textContent = formatTime(audio.currentTime);
+        }
+
+        function setProgress() {
+            audio.currentTime = progressBar.value;
+        }
+        
+        function setDuration() {
+            const duration = audio.duration;
+            progressBar.max = duration;
+            durationEl.textContent = formatTime(duration);
+        }
+
+        // Event Listeners for Music Player
+        audio.addEventListener('timeupdate', updateProgress);
+        audio.addEventListener('loadedmetadata', setDuration);
+        progressBar.addEventListener('input', setProgress);
+        audio.addEventListener('ended', () => {
+            playBtn.textContent = '▶️';
+            isPlaying = false;
+            document.querySelectorAll('.bar').forEach(bar => bar.classList.remove('dancing'));
+        });
 
         // Page navigation
         let currentPage = 'home';
